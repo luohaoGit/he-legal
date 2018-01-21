@@ -18,6 +18,7 @@
     select
     <include refid="Base_Column_List" />
     from t_push
+    ORDER BY createtime DESC
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
