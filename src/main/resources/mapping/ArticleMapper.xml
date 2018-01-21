@@ -19,6 +19,13 @@
     id, title, subTitle, imgUrl, videoUrl, content, clickCount, createUser, createTime, 
     updateTime, deleted, version
   </sql>
+
+  <select id="queryByPushId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select b.* from t_push_article a
+    inner join t_article b on a.articleId = b.id
+    where a.pushId=#{pushId}
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

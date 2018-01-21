@@ -2,7 +2,12 @@ package com.github.legal.mapper;
 
 import com.github.legal.domain.Article;
 
+import java.util.List;
+
 public interface ArticleMapper {
+
+    List<Article> queryByPushId(Integer pushId);
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Article record);

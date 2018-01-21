@@ -1,6 +1,7 @@
 package com.github.legal.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Push {
     private Integer id;
@@ -16,6 +17,16 @@ public class Push {
     private Boolean deleted;
 
     private Integer version;
+
+    private List<Article> articles;
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
 
     public Integer getId() {
         return id;
