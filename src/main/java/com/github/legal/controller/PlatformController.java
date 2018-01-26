@@ -40,7 +40,13 @@ public class PlatformController {
                            @RequestParam(name = "scope", required = false) String scope,
                            @RequestParam(name = "expires_in", required = false) String expiresIn,
                            @RequestParam(name = "state") String state,
-                           @RequestParam(name = "sig") String sig){
+                           @RequestParam(name = "sig") String sig,
+                           @RequestParam(name = "error", required = false) String error){
+
+        if(error != null){
+            logger.error("发生错误====" + error);
+            return null;
+        }
 
         if(StringUtils.isNotEmpty(code)){
             TreeMap<String, String> map = new TreeMap<>();
@@ -54,7 +60,7 @@ public class PlatformController {
             try {
                 CloseableHttpResponse response = httpClient.execute(httpGet);
                 String resultContent = new BasicResponseHandler().handleResponse(response);
-
+/*
                 CommonResp resp = JSON.parseObject(resultContent, CommonResp.class);
 
                 if(resp.getError() != null){
@@ -62,7 +68,7 @@ public class PlatformController {
                 }
 
                 accessToken = resp.getAccess_token();
-                openId = resp.getOpen_id();
+                openId = resp.getOpen_id();*/
 
             } catch (Exception e){
                 logger.error("error====", e);
