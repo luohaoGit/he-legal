@@ -60,7 +60,25 @@ public class PlatformController {
             try {
                 CloseableHttpResponse response = httpClient.execute(httpGet);
                 String resultContent = new BasicResponseHandler().handleResponse(response);
-/*
+                logger.info("获得结果====" + resultContent);
+            } catch (Exception e){
+                logger.error("error====", e);
+            } finally {
+                httpGet.releaseConnection();
+            }
+        }else{
+            TreeMap<String, String> map = new TreeMap<>();
+            map.put("access_token", accessToken);
+            map.put("open_id", openId);
+            map.put("client_id", clientId);
+            map.put("state", System.currentTimeMillis() + "");
+
+            String paramStr = generateParamWithSig(map);
+
+            HttpGet httpGet = new HttpGet(urlPrefix + "api/openAPI/v3/get_user_info?" + paramStr);
+            try {
+                CloseableHttpResponse response = httpClient.execute(httpGet);
+                String resultContent = new BasicResponseHandler().handleResponse(response);
                 CommonResp resp = JSON.parseObject(resultContent, CommonResp.class);
 
                 if(resp.getError() != null){
@@ -68,14 +86,13 @@ public class PlatformController {
                 }
 
                 accessToken = resp.getAccess_token();
-                openId = resp.getOpen_id();*/
+                openId = resp.getOpen_id();
 
             } catch (Exception e){
                 logger.error("error====", e);
             } finally {
                 httpGet.releaseConnection();
             }
-        }else{
 
         }
 
