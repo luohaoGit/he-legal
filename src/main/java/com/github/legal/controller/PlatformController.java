@@ -28,9 +28,9 @@ public class PlatformController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
-    private String urlPrefix = "http://121.41.62.98:9200/educloud_new/";
-    private String clientId = "";
-    private String appKey = "";
+    private static String urlPrefix = "http://121.41.62.98:9200/educloud_new/";
+    private static String clientId = "";
+    private static String appKey = "";
 
     private CloseableHttpClient httpClient = HttpClients.custom().build();
 
