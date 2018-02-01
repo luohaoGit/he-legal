@@ -42,7 +42,7 @@ public class PlatformController {
                            @RequestParam(name = "scope", required = false) String scope,
                            @RequestParam(name = "expires_in", required = false) String expiresIn,
                            @RequestParam(name = "state") String state,
-                           @RequestParam(name = "sig") String sig,
+                           @RequestParam(name = "sig", required = false) String sig,
                            @RequestParam(name = "error", required = false) String error) throws Exception{
 
         if(error != null){
