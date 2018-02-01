@@ -2,6 +2,7 @@ package com.github.legal.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.github.legal.param.CommonResp;
+import com.github.legal.util.Coder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigInteger;
 import java.util.TreeMap;
 
 /**
@@ -41,7 +43,7 @@ public class PlatformController {
                            @RequestParam(name = "expires_in", required = false) String expiresIn,
                            @RequestParam(name = "state") String state,
                            @RequestParam(name = "sig") String sig,
-                           @RequestParam(name = "error", required = false) String error){
+                           @RequestParam(name = "error", required = false) String error) throws Exception{
 
         if(error != null){
             logger.error("发生错误====" + error);
@@ -49,6 +51,7 @@ public class PlatformController {
         }
 
         if(StringUtils.isNotEmpty(code)){
+            logger.info("收到code====" + code);
             TreeMap<String, String> map = new TreeMap<>();
             map.put("client_id", clientId);
             map.put("code", code);
@@ -88,6 +91,8 @@ public class PlatformController {
                 accessToken = resp.getAccess_token();
                 openId = resp.getOpen_id();
 
+                logger.info("获得openId和accessToken====" + openId + "；" + accessToken);
+
             } catch (Exception e){
                 logger.error("error====", e);
             } finally {
@@ -99,12 +104,12 @@ public class PlatformController {
         return null;
     }
 
-    private String generateParamWithSig(TreeMap<String, String> map){
+    private String generateParamWithSig(TreeMap<String, String> map) throws Exception{
 
         String paramStr = map.keySet().stream().reduce("", (acc, item) -> acc += item + "=" + map.get(item) + "&");
         String sigSeed = map.keySet().stream().reduce("", (acc, item) -> acc += item + "=" + map.get(item));
 
-        //String sig = new BigInteger(Coder.encryptHMAC((sigSeed).getBytes("utf-8"), appKey)).toString();
+        String sig = new BigInteger(Coder.encryptHMAC((sigSeed).getBytes("utf-8"), appKey)).toString();
 
         return paramStr + "sig=";
     }
