@@ -111,7 +111,7 @@ public class PlatformController {
 
         String sig = new BigInteger(Coder.encryptHMAC((sigSeed).getBytes("utf-8"), appKey)).toString();
 
-        return paramStr + "sig=";
+        return paramStr + "sig=" + sig;
     }
 
 }
